@@ -100,6 +100,7 @@ extern "C" {
 26. Write path must use strict `GB2312` encoding (encoder exception fallback enabled); if encode fails, stop immediately and rollback.
 27. Remove obvious AI-style comments (for example: `/* global variable with static scope */`); rewrite as natural engineering comments that describe current module intent/context, not generic coding slogans.
 28. Struct-pointer function parameters must use unified name `handle` (for example: `static void gpio_control_work(GPIO_Control_t *handle)`), avoid mixed aliases such as `p_ctrl`/`p_xxx`.
+29. Header file internal sections must be ordered as: `#include` -> `#define` -> `typedef` -> function declarations -> variable declarations.
 
 ---
 
@@ -142,6 +143,17 @@ Get-ChildItem -Path <selected_scope_paths> -Recurse -File
 
 - Convert standard C headers from `"x.h"` to `<x.h>`.
 - Keep project headers in `"x.h"`.
+
+### Step 6.5: Header Section Order Normalization
+
+- For every `.h`, normalize internal layout in this order:
+  1. `#include`
+  2. `#define`
+  3. `typedef`
+  4. function declarations
+  5. variable declarations
+- Do not move include guard or C++ compatibility block; only normalize content inside them.
+- Keep existing APIs and symbols unchanged while reordering.
 
 ### Step 7: Final Newline + Encoding Pass
 
@@ -186,6 +198,12 @@ Get-ChildItem <selected_scope_paths> -Recurse -File | ForEach-Object {
 rg -n "\?\?\?|\uFFFD" <selected_scope_paths>
 ```
 Result must be empty for newly changed content.
+
+7. Header section order check (`.h` only):
+```powershell
+Get-ChildItem <selected_scope_paths> -Recurse -Filter *.h
+```
+Manually confirm each header follows: include -> define -> typedef -> function declarations -> variable declarations.
 
 ---
 
