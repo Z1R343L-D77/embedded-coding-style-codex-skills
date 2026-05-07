@@ -18,7 +18,7 @@
 
 ## Skill 定位
 
-`skill-copy` 用于在嵌入式 C 项目中执行统一、可复用、可验证的 MISRA 风格代码治理，重点覆盖：
+`skill` 用于在嵌入式 C 项目中执行统一、可复用、可验证的 MISRA 风格代码治理，重点覆盖：
 
 1. 作用域可选（`driver/bsp/app/组合/全量`）且禁止越界修改。
 2. 严格编码策略（`GB2312 + CRLF + 文件尾 CRLF+CRLF`）。
@@ -80,7 +80,6 @@
 .
 |-- embedded-coding-style/
 |   |-- SKILL.md
-|   |-- SKILL copy.md
 |   `-- agents/
 |       `-- openai.yaml
 |-- LICENSE
@@ -89,7 +88,7 @@
 
 ## Skill 入口信息
 
-- Skill 名称：`skill-copy`
+- Skill 名称：`skill`
 - 显示名称：`Embedded Coding Style`
 - 简介：`Help with Embedded Coding Style tasks`
 
@@ -104,7 +103,7 @@
 示例：
 
 ```text
-使用 skill-copy。
+使用 skill。
 项目根目录是 <project_root>。
 只处理 driver 和 bsp。
 按 SKILL.md 规则执行并输出检查结果。
