@@ -1,5 +1,5 @@
----
-name: embedded-coding-style
+﻿---
+name: skill-copy
 description: "Initialize embedded project context, then apply and verify MISRA-like C coding style rules with selectable scope, ANSI encoding policy, brace policy, header/doc comment policy, and verification checklist."
 ---
 
@@ -101,6 +101,14 @@ extern "C" {
 27. Remove obvious AI-style comments (for example: `/* global variable with static scope */`); rewrite as natural engineering comments that describe current module intent/context, not generic coding slogans.
 28. Struct-pointer function parameters must use unified name `handle` (for example: `static void gpio_control_work(GPIO_Control_t *handle)`), avoid mixed aliases such as `p_ctrl`/`p_xxx`.
 29. Header file internal sections must be ordered as: `#include` -> `#define` -> `typedef` -> function declarations -> variable declarations.
+30. Key logic in functions must include clear Chinese comments explaining each critical step and intent; avoid empty/noise comments.
+31. Function names must use UpperCamelCase style (for example: `GPIO_Init()`, `UART_SendData()`, `SPI_TransmitReceive()`).
+32. Variable names must use lowercase snake_case style (for example: `uart_handle`, `buffer_size`, `is_initialized`).
+33. Macro names must use UPPER_SNAKE_CASE style (for example: `UART_BUFFER_SIZE`, `MAX_RETRY_COUNT`, `GPIO_PIN_HIGH`).
+34. Struct type names must use lowercase snake_case with `_t` suffix (for example: `uart_config_t`, `gpio_pin_config_t`, `sensor_data_t`).
+35. Enum type names must use lowercase snake_case with `_e` suffix (for example: `uart_status_e`, `gpio_mode_e`).
+36. When struct-pointer null-check protection uses `NULL` in a file, ensure `#include <stdio.h>` is present at the top include section of the current file.
+37. 注释中的关键步骤说明必须直接描述具体作用，不使用`步骤1：`这类编号前缀，且禁止出现`关键步骤：`字样。
 
 ---
 
@@ -120,7 +128,10 @@ Get-ChildItem -Path <selected_scope_paths> -Recurse -File
 - Avoid broad regex that can touch function comments repeatedly.
 - For file header replacement, replace only the first top-of-file block comment.
 - During comment cleanup, rewrite AI-template comments into natural project comments; preserve technical meaning and avoid repetitive rule-recitation wording.
+- During comment enhancement, add concise Chinese comments for every key function step (state transition, boundary check, hardware access, timing-sensitive branch, error/exit path).
+- During comment enhancement, key-step comments must directly describe concrete intent/action (no `步骤1：` prefix) and must not contain `关键步骤：`.
 - During signature cleanup, rename struct-pointer parameters to `handle` consistently and update in-function references in the same scope.
+- During null-check normalization, if `NULL` is used for struct-pointer protection in a file, insert `#include <stdio.h>` in that file's top include section when missing.
 - Run strict encoding preflight before first write:
   - Force `GB2312` decode for source text (code page 936).
   - Decoder fallback must be exception-based; any decode error means immediate stop.
