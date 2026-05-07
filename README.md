@@ -1,4 +1,4 @@
-﻿# Skill Copy (Embedded Coding Style)
+﻿# Skill  (Embedded Coding Style)
 
 > [!IMPORTANT]
 > 使用本 Skill 前，请确认目标 `.c/.h` 文件编码为 `GB2312`（code page 936）。
