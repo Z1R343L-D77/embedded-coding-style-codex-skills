@@ -1,7 +1,6 @@
 ---
 name: embedded-coding-style
 description: "Initialize embedded project context, then apply and verify MISRA-like C coding style rules with selectable scope, ANSI encoding policy, brace policy, header/doc comment policy, and verification checklist."
-
 ---
 
 # Embedded Coding Style Skill
@@ -80,7 +79,6 @@ extern "C" {
 11. Left brace must be on a new line.
 12. Brace indentation must align with control statement indentation.
 13. Always use braces for single-line bodies:
-
 - `if`
 - `while`
 - `else if`
@@ -110,7 +108,7 @@ extern "C" {
 34. Struct type names must use lowercase snake_case with `_t` suffix (for example: `uart_config_t`, `gpio_pin_config_t`, `sensor_data_t`).
 35. Enum type names must use lowercase snake_case with `_e` suffix (for example: `uart_status_e`, `gpio_mode_e`).
 36. When struct-pointer null-check protection uses `NULL` in a file, ensure `#include <stdio.h>` is present at the top include section of the current file.
-37. æ³¨é‡Šä¸­çš„å…³é”®æ­¥éª¤è¯´æ˜å¿…é¡»ç›´æ¥æè¿°å…·ä½“ä½œç”¨ï¼Œä¸ä½¿ç”¨`æ­¥éª¤1ï¼š`è¿™ç±»ç¼–å·å‰ç¼€ï¼Œä¸”ç¦æ­¢å‡ºç°`å…³é”®æ­¥éª¤ï¼š`å­—æ ·ã€‚
+37. ×¢ÊÍÖĞµÄ¹Ø¼ü²½ÖèËµÃ÷±ØĞëÖ±½ÓÃèÊö¾ßÌå×÷ÓÃ£¬²»Ê¹ÓÃ`²½Öè1£º`ÕâÀà±àºÅÇ°×º£¬ÇÒ½ûÖ¹³öÏÖ`¹Ø¼ü²½Öè£º`×ÖÑù¡£
 
 ---
 
@@ -131,7 +129,7 @@ Get-ChildItem -Path <selected_scope_paths> -Recurse -File
 - For file header replacement, replace only the first top-of-file block comment.
 - During comment cleanup, rewrite AI-template comments into natural project comments; preserve technical meaning and avoid repetitive rule-recitation wording.
 - During comment enhancement, add concise Chinese comments for every key function step (state transition, boundary check, hardware access, timing-sensitive branch, error/exit path).
-- During comment enhancement, key-step comments must directly describe concrete intent/action (no `æ­¥éª¤1ï¼š` prefix) and must not contain `å…³é”®æ­¥éª¤ï¼š`.
+- During comment enhancement, key-step comments must directly describe concrete intent/action (no `²½Öè1£º` prefix) and must not contain `¹Ø¼ü²½Öè£º`.
 - During signature cleanup, rename struct-pointer parameters to `handle` consistently and update in-function references in the same scope.
 - During null-check normalization, if `NULL` is used for struct-pointer protection in a file, insert `#include <stdio.h>` in that file's top include section when missing.
 - Run strict encoding preflight before first write:
@@ -182,25 +180,21 @@ Get-ChildItem -Path <selected_scope_paths> -Recurse -File
 Run and confirm all are clean (within selected scope only):
 
 1. `if/while/else if/else` without brace:
-
 ```powershell
 rg -n "^\s*(if|while|else\s+if|else)\b" <selected_scope_paths>
 ```
 
 2. C++ guards exist in headers:
-
 ```powershell
 rg -n "#ifdef __cplusplus|extern \"C\"|#endif" <selected_scope_paths>
 ```
 
 3. File header presence:
-
 ```powershell
 rg -n "^/\*\*|@file|@author|@brief|@version|@date" <selected_scope_paths>
 ```
 
 4. Tail bytes check (`13,10,13,10` expected):
-
 ```powershell
 Get-ChildItem <selected_scope_paths> -Recurse -File | ForEach-Object {
   $b=[IO.File]::ReadAllBytes($_.FullName)
@@ -211,19 +205,15 @@ Get-ChildItem <selected_scope_paths> -Recurse -File | ForEach-Object {
 
 5. Spot-check random files for Chinese comment readability.
 6. Encoding safety check:
-
 ```powershell
 rg -n "\?\?\?|\uFFFD" <selected_scope_paths>
 ```
-
 Result must be empty for newly changed content.
 
 7. Header section order check (`.h` only):
-
 ```powershell
 Get-ChildItem <selected_scope_paths> -Recurse -Filter *.h
 ```
-
 Manually confirm each header follows: include -> define -> typedef -> function declarations -> variable declarations.
 
 ---
