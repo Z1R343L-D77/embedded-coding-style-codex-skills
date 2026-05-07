@@ -12,9 +12,9 @@
 
 ## 本次更新
 
-1. 用 `embedded-coding-style/SKILL copy.md` 完整替换主 Skill 文件。
-2. Skill 名称从 `embedded-coding-style` 更新为 `skill-copy`。
-3. README 全量重写，修复乱码，并同步最新规则与流程。
+1. 添加函数名变量名的矫正
+2. 添加使用NULL时，添加#include <stdio.h>
+3. 添加关键函数与程序的注释
 
 ## Skill 定位
 
