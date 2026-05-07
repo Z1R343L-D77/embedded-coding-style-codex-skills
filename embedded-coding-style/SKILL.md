@@ -1,6 +1,7 @@
-﻿---
-name: skill-copy
+---
+name: embedded-coding-style
 description: "Initialize embedded project context, then apply and verify MISRA-like C coding style rules with selectable scope, ANSI encoding policy, brace policy, header/doc comment policy, and verification checklist."
+
 ---
 
 # Embedded Coding Style Skill
@@ -79,6 +80,7 @@ extern "C" {
 11. Left brace must be on a new line.
 12. Brace indentation must align with control statement indentation.
 13. Always use braces for single-line bodies:
+
 - `if`
 - `while`
 - `else if`
@@ -180,21 +182,25 @@ Get-ChildItem -Path <selected_scope_paths> -Recurse -File
 Run and confirm all are clean (within selected scope only):
 
 1. `if/while/else if/else` without brace:
+
 ```powershell
 rg -n "^\s*(if|while|else\s+if|else)\b" <selected_scope_paths>
 ```
 
 2. C++ guards exist in headers:
+
 ```powershell
 rg -n "#ifdef __cplusplus|extern \"C\"|#endif" <selected_scope_paths>
 ```
 
 3. File header presence:
+
 ```powershell
 rg -n "^/\*\*|@file|@author|@brief|@version|@date" <selected_scope_paths>
 ```
 
 4. Tail bytes check (`13,10,13,10` expected):
+
 ```powershell
 Get-ChildItem <selected_scope_paths> -Recurse -File | ForEach-Object {
   $b=[IO.File]::ReadAllBytes($_.FullName)
@@ -205,15 +211,19 @@ Get-ChildItem <selected_scope_paths> -Recurse -File | ForEach-Object {
 
 5. Spot-check random files for Chinese comment readability.
 6. Encoding safety check:
+
 ```powershell
 rg -n "\?\?\?|\uFFFD" <selected_scope_paths>
 ```
+
 Result must be empty for newly changed content.
 
 7. Header section order check (`.h` only):
+
 ```powershell
 Get-ChildItem <selected_scope_paths> -Recurse -Filter *.h
 ```
+
 Manually confirm each header follows: include -> define -> typedef -> function declarations -> variable declarations.
 
 ---
